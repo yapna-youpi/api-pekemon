@@ -1,8 +1,16 @@
 const express = require("express");
-let pokemons = require('./mock_pockemon')
+const { success } = require('./Helper.js')
+
+const pokemons = require('./mock_pockemon')
 
 const app = express()
-const port = 3000
+const port = 3001
+
+
+app.use( (req , res , next) => {
+        console.log(`url : ${req.url}`);
+        next()
+})
 
 app.get('/',(req, res)=> res.send('hello vraiment il faut dire que: express est cool ! $$'))
 
@@ -17,19 +25,17 @@ app.get('/api/pokemons/:id/:name/:lenght', ( req, res) => {
 app.get('/api/pokemons/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const pokemon = pokemons.find( pokemon => pokemon.id === id ) 
-    res.send(`hello guy, vous avez demandé le pokemon ${pokemon.name} ou ${pokemon.picture}`)
-
+    const message = ' un pokemon a bien été trouvé.'
+    // res.send(`hello guy, vous avez demandé le pokemon ${pokemon.name} ou ${pokemon.picture}`)
+    res.json(success(message, pokemon))
     
 })
 
 app.get('/api/pokemons', (req, res) => {
     
     let numb = pokemons.length
-    // let pokedesk = pokemons.forEach(element => {
-    //     element
-    // });
-    res.send( ` il y'a environ ${numb} pokemons dans le pokedex pour le moment`)
-    res.send( ` il y'a environ ${numb} pokemons dans le pokedex pour0 le moment est `)
+    let message = 'La liste complète des pokemons présents dans le pokedesk.'
+    res.json(success(message, pokemons))
 
 })
 
