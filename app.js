@@ -23,6 +23,16 @@ require('./src/routes/findAllPokemons')(app)
 require('./src/routes/findPokemonByPk')(app)
 //3-point de terminaison pour créer un pokemon
 require('./src/routes/createPokemon')(app)
+//4-point de modification d'un pokemon
+require('./src/routes/updatePokemon')(app)
+//5-point de modification de suppression
+require('./src/routes/deletePokemon')(app)
+
+//on ajoute la gestion des erreurs
+app.use(({res}) => {
+    const message = 'Impossible de trouver la ressource demandée ! Vous pouvez essayer une autre URL.'
+    res.status(404).json({message})
+})
 
 
 app.listen(port, () => console.log(`notre application Node est démarrée sur : http://localhost:${port}`))
